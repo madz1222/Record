@@ -20,7 +20,7 @@ FIRST Download
 
 6. Import odss_db.sql file(given inside the zip package in SQL file folder)
 
-7.Run the script http:/document_sharing
+7. Open http://localhost/recordv9
 **LOGIN DETAILS** 
 
 Admin

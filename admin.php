@@ -46,8 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mail->isSMTP();
             $mail->Host = 'smtp.mail.yahoo.com';
             $mail->SMTPAuth = true;
-            $mail->Username = 'robellnomorosa@yahoo.com';
-            $mail->Password = 'yexhgjommdydlrte';
+            $mail->Username = '@yahoo.com';
+            $mail->Password = '';
             $mail->SMTPSecure = 'ssl';
             $mail->Port = 465;
     

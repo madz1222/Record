@@ -4,16 +4,34 @@
 session_start();
 include('./db_connect.php');
 
-// Assuming you have retrieved the token and validated it before reaching this point
 // You can perform the necessary actions to update the user's password here
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Retrieve the new password from the form submission
-    $newPassword = $_POST['password'];
+    // Retrieve the new password and token from the request
+    $new_password = $_POST['password'];
+    $token = $_GET['token'];
 
-    // TODO: Perform necessary password update logic (e.g., update password in the database)
+    // Check if the new password is empty
+    if (empty($new_password)) {
+        exit;
+    }
 
-    // Display a success message
-    echo '<p>Password updated successfully!</p>';
+    // Update the password in the users table based on the token
+    $sql = "";
+
+    if (!empty($new_password)) {
+        // Hash the new password
+        $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+
+        // Build the SQL query
+        $sql = "UPDATE users SET password = '$hashed_password' WHERE token = '$token'";
+    }
+
+    if (!empty($sql) && $conn->query($sql) === TRUE) {
+        // Password updated successfully, perform any desired actions
+        header('Location: ./login.php');
+    } else {
+        // Error updating password, handle the error accordingly
+    }
 }
 
 // Retrieve the token from the URL parameter or form input
@@ -92,9 +110,9 @@ if (isset($_GET['token'])) {
                         <form id="new-password-form" method="POST" action="">
                             <div class="form-group">
                                 <label for="password" class="control-label text-dark">New Password</label>
-                                <input type="password" id="password" name="password" class="form-control form-control-sm">
+                                <input type="password" id="password" name="password" class="form-control form-control-sm" required>
                             </div>
-                            <center><button type="submit" class="btn-sm btn-block btn-wave col-md-4 btn-success">Update Password</button></center>
+                            <center><button id="new_password_button" class="btn-sm btn-block btn-wave col-md-4 btn-success">Update Password</button></center>
                         </form>
                     </div>
                 </div>
@@ -107,6 +125,23 @@ if (isset($_GET['token'])) {
 
 </body>
 <script>
-    
+const new_password_button = document.getElementById('reset_password_button');
+
+new_password_button.addEventListener('click', function() {
+    // Display SweetAlert2 popup with success message
+    Swal.fire({
+        icon: 'success',
+        title: 'Password Changed',
+        text: 'Your password has been successfully changed.',
+        showConfirmButton: false, // Disable the "OK" button
+        timer: 4000, // Automatically close after 2 seconds
+        didOpen: () => {
+        setTimeout(() => {
+            window.location.href = './login.php'; // Redirect to "./login.php"
+        }, 4000); // Same duration as the timer
+        }
+    });
+    });
+
 </script>
 </html>

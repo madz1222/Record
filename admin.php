@@ -62,15 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
             // Send the email
             $mail->send();
-            echo '<script>
-            Swal.fire(
-                "Good job!",
-                "Email sent successfully!",
-                "success"
-            ).then(function() {
-                window.location.href = "index.php?page=login.php";
-            });
-          </script>';
+            echo '';
     
         } catch (Exception $e) {
             // You can perform any custom error handling here if needed

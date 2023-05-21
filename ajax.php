@@ -62,6 +62,12 @@ if($action == 'update_record'){
 		echo $save;
 }
 
+if($action == 'reset_password'){
+	$save = $crud->reset_password();
+	if($save)
+		echo $save;
+}
+
 if($action == 'delete_record'){
 	$delete = $crud->delete_record();
 	if($delete)

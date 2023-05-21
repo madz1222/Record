@@ -95,8 +95,8 @@
 	    // if($bg == 'danger')
 	    //   $('#alert_toast').addClass('bg-danger')
 	    // if($bg == 'info')
-	    //   $('#alert_toast').addClass('bg-info')
-	    // if($bg == 'warning')
+	        $('#alert_toast').addClass('bg-info')
+	    	if($bg == 'warning')
 	    //   $('#alert_toast').addClass('bg-warning')
 	    // $('#alert_toast .toast-body').html($msg)
 	    // $('#alert_toast').toast({delay:3000}).toast('show');

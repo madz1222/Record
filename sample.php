@@ -7,6 +7,7 @@ Class Action {
 	public function __construct() {
 		ob_start();
    	include 'db_connect.php';
+	include 'phpmailer.php';
     
     $this->db = $conn;
 	}
@@ -14,7 +15,7 @@ Class Action {
 	    $this->db->close();
 	    ob_end_flush();
 	}
-	
+
 	function login() {
 		extract($_POST);
 		$qry = $this->db->query("SELECT *, CONCAT(lastname, ', ', firstname, ' ', middlename) AS name FROM users WHERE email = '".$email."'");
@@ -251,24 +252,65 @@ Class Action {
 	}//Not Used -Robell
 
 	function update_record() {
-		extract($_POST);
+		$id = $_POST['id'] ?? '';
+		$first_name = $_POST['first_name'] ?? '';
+		$last_name = $_POST['last_name'] ?? '';
+		$middle_name = $_POST['middle_name'] ?? '';
+		$course_name = $_POST['course_name'] ?? '';
+		$year_graduate = $_POST['year_graduate'] ?? '';
+		$year_entry = $_POST['year_entry'] ?? '';
+		$grad_hd = $_POST['grad_hd'] ?? '';
 	
-		$update = $this->db->query("UPDATE record SET 
-		id = '$id', 
-		first_name = '$first_name', 
-		last_name = '$last_name', 
-		middle_name = '$middle_name', 
-		course_name = '$course_name', 
-		year_graduate = '$year_graduate', 
-		year_entry = '$year_entry', 
-		grad_hd = '$grad_hd' 
-		WHERE id = '$id'");
-
-		if ($update) {
-		return 1;
+		$updateQuery = "UPDATE record SET ";
+		$updateColumns = array();
+		$params = array();
+	
+		if (!empty($id)) {
+			$updateColumns[] = "id = ?";
+			$params[] = $id;
 		}
-
+		if (!empty($first_name)) {
+			$updateColumns[] = "first_name = ?";
+			$params[] = $first_name;
+		}
+		if (!empty($last_name)) {
+			$updateColumns[] = "last_name = ?";
+			$params[] = $last_name;
+		}
+		if (!empty($middle_name)) {
+			$updateColumns[] = "middle_name = ?";
+			$params[] = $middle_name;
+		}
+		if (!empty($course_name)) {
+			$updateColumns[] = "course_name = ?";
+			$params[] = $course_name;
+		}
+		if (!empty($year_graduate)) {
+			$updateColumns[] = "year_graduate = ?";
+			$params[] = $year_graduate;
+		}
+		if (!empty($year_entry)) {
+			$updateColumns[] = "year_entry = ?";
+			$params[] = $year_entry;
+		}
+		if (!empty($grad_hd)) {
+			$updateColumns[] = "grad_hd = ?";
+			$params[] = $grad_hd;
+		}
+	
+		if (!empty($updateColumns)) {
+			$updateQuery .= implode(", ", $updateColumns);
+			$updateQuery .= " WHERE id = ?";
+			$params[] = $id;
+	
+			$stmt = $this->db->prepare($updateQuery);
+			if ($stmt) {
+				$stmt->execute($params);
+				return 1;
+			}
+		}
 	}
+	
 	function update_status() {
 		extract($_POST);
 	

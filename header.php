@@ -8,7 +8,7 @@
   <title><?php echo $title ?> | Record System  </title>
   <?php ob_end_flush() ?>
 
-  <meta http-equiv="refresh" content="120">
+  <meta http-equiv="refresh" content="60">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome Icons -->

@@ -156,7 +156,11 @@
 					setTimeout(function(){
 						location.href = 'index.php?page=record_list'
 					},2000)
-				}
+				}else if(resp == 2){
+				$('#msg').html("<div class='alert alert-danger'>Detected duplicate entry for this record.</div>");
+				$('[name="first_name"], [name="middle_name"], [name="last_name"]').addClass("border-danger");
+				end_load();
+			}
 			}
 		})
 	})

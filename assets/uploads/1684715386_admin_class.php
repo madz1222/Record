@@ -14,16 +14,13 @@ Class Action {
 	    $this->db->close();
 	    ob_end_flush();
 	}
-	
+
 	function login() {
 		extract($_POST);
-		$stmt = $this->db->prepare("SELECT *, CONCAT(lastname, ', ', firstname, ' ', middlename) AS name FROM users WHERE email = ?");
-		$stmt->bind_param("s", $email);
-		$stmt->execute();
-		$result = $stmt->get_result();
-	
-		if ($result->num_rows > 0) {
-			$user = $result->fetch_assoc();
+		$qry = $this->db->query("SELECT *, CONCAT(lastname, ', ', firstname, ' ', middlename) AS name FROM users WHERE email = '".$email."'");
+		
+		if ($qry->num_rows > 0) {
+			$user = $qry->fetch_assoc();
 			if (password_verify($password, $user['password'])) {
 				foreach ($user as $key => $value) {
 					if ($key != 'password' && !is_numeric($key))
@@ -32,10 +29,9 @@ Class Action {
 				return 1; // Login successful
 			}
 		}
-	
+		
 		return 3; // Invalid credentials
 	}
-	
 	function logout(){
 		session_destroy();
 		foreach ($_SESSION as $key => $value) {
@@ -74,13 +70,6 @@ Class Action {
 		$file_temp = $_FILES['file']['tmp_name'];
 		$location = "userfiles/".$student_no."/".$file_name;
 		$date = date("Y-m-d, h:i A", strtotime("+6 HOURS"));
-
-		$check = $this->db->query("SELECT * FROM record WHERE LOWER(first_name) = LOWER('$first_name') AND LOWER(last_name) = LOWER('$last_name') AND LOWER(middle_name) = LOWER('$middle_name') ".(!empty($id) ? " AND id != {$id} " : ''))->num_rows;
-		if($check > 0){
-			return 2;
-			exit;
-		}
-
 	
 		if (!file_exists("userfiles/".$student_no)) {
 			mkdir("userfiles/".$student_no);
@@ -105,24 +94,17 @@ Class Action {
 		if (!empty($file_ext)) {
 			move_uploaded_file($file_temp, $location);
 			
-			$stmt = $this->db->prepare("INSERT INTO user_file (student_no, clerk_id, file_name, file_type, date_uploaded, file_owner) 
-				VALUES (?, ?, ?, ?, ?, ?)");
-			$stmt->bind_param("iissss", $student_no, $_SESSION['login_id'], $file_name, $file_ext, $date, $date);
-			$stmt->execute();
-		}   
+			$insertfile = $this->db->query("INSERT INTO user_file (student_no, clerk_id, file_name, file_type, date_uploaded, file_owner) 
+				VALUES ('$student_no', $_SESSION[login_id], '$file_name', '$file_ext', '$date', '$date')");
+		}		
 	
-		$stmt = $this->db->prepare("INSERT INTO record (student_no, clerk_id, first_name, last_name, middle_name, course_name, year_graduate, year_entry, grad_hd, record_status) 
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-		$stmt->bind_param("iissssssss", $student_no, $_SESSION['login_id'], $first_name_formatted, $last_name_formatted, $middle_name_formatted, $course_name, $year_graduate, $year_entry, $grad_hd, $record_status);
-		$stmt->execute();
+		$insert = $this->db->query("INSERT INTO record (student_no, clerk_id, first_name, last_name, middle_name, course_name, year_graduate, year_entry, grad_hd, record_status) 
+			VALUES ('$student_no', $_SESSION[login_id], '$first_name_formatted', '$last_name_formatted', '$middle_name_formatted', '$course_name', '$year_graduate', '$year_entry', '$grad_hd', '$record_status')");
 	
-		if ($stmt) {
-			return 1; // Success
-		} else {
-			return 0; // Error
+		if ($insert) {
+			return 1;
 		}
-	}
-	
+	}	
 	function save_user(){
 		extract($_POST);
 		$data = "";
@@ -164,7 +146,7 @@ Class Action {
 		extract($_POST);
 		$data = "";
 		foreach ($_POST as $k => $v) {
-			if (!in_array($k, array('id', 'cpass', 'table')) && !is_numeric($k) && $v !== '') {
+			if (!in_array($k, array('id', 'cpass', 'table')) && !is_numeric($k)) {
 				if ($k == 'password') {
 					$v = password_hash($v, PASSWORD_DEFAULT);
 				}
@@ -299,18 +281,6 @@ Class Action {
 		}
 
 	}
-	function reset_password() {
-		extract($_POST);
-	
-		$reset = $this->db->query("UPDATE users SET
-		token = '$token'
-		WHERE email = '$email'");
-		if ($reset) {
-			return 1;
-		}
-		
-	}
-	
 	function new_file() {
 		extract($_POST);
 	

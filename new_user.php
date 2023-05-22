@@ -60,7 +60,7 @@
 						<div class="form-group">
 							<label class="control-label">Password</label>
 							<input type="password" class="form-control form-control-sm" name="password" <?php echo isset($id) ? "":'required' ?>>
-							<small><i><?php echo isset($id) ? "Leave this blank if you dont want to change you password":'' ?></i></small>
+							<small><i><?php echo isset($id) ? "Leave this blank if you dont want to change the user's password":'' ?></i></small>
 						</div>
 						<div class="form-group">
 							<label class="label control-label">Confirm Password</label>

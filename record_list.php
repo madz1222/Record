@@ -81,7 +81,8 @@
 								<td class="clerk-id"><?php echo ucwords($row['clerk_id']) ?></td>
 							<?php endif; ?>
 							<?php if ($_SESSION['login_type'] == 1): ?>
-								<td class="record-status">
+								<td class="record-status" style="color:#5cb85c;">
+								<b>
 									<?php if ($row['record_status'] == 'notyetapproved'): ?>
 										<div class="card-tools">
 											<a class="btn btn-block btn-sm btn-success btn-flat update_status" data-id="<?php echo $row['id'] ?>" data-update-status="'approved'">
@@ -91,6 +92,7 @@
 									<?php elseif ($row['record_status'] == 'approved'): ?>
 										Approved
 									<?php endif; ?>
+									</b>	
 								</td>
 							<?php endif; ?>
 							<td class="last-name"><?php echo ucwords($row['last_name']) ?></td>

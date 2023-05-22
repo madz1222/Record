@@ -3,14 +3,16 @@
 <?php include 'db_connect.php' ?>
 <?php session_start() ?>
 <?php 
-	if(!isset($_SESSION['login_id']))
-	    header('location:login.php');
-      
-  if ($_SESSION['login_type'] !== '1' && isset($_GET['page']) && $_GET['page'] === 'new_user') {
-    // Redirect or handle unauthorized access as desired
-    header('Location: /record/index.php');
-    exit(); // Stop further execution 
-  }
+if (!isset($_SESSION['login_id'])) {
+  header('location: login.php');
+  exit();
+}
+
+if ($_SESSION['login_type'] !== 1 && isset($_GET['page']) && $_GET['page'] === 'new_user') {
+  // Redirect or handle unauthorized access as desired
+  header('Location: /record/index.php');
+  exit();
+}
 
 	include 'header.php' 
 ?>

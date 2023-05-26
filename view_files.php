@@ -82,37 +82,35 @@
 	</div>
 </div>
 <script>
-$(document).ready(function(){
-    $('#list').dataTable({
-        scrollX: true,
-    });
-    $('#list').on('click', '.delete_file', function(){
-        var file_id = $(this).data('file-id');
-        var student_no = $(this).data('student-no');
-        var file_name = $(this).data('file-name');
-        console.log(file_id, student_no, file_name); // Log the parameter values
+	$(document).ready(function(){
+		$('#list').dataTable({
+			scrollX: true,
+		});
+		$('#list').on('click', '.delete_file', function(){
+			var file_id = $(this).data('file-id');
+			var student_no = $(this).data('student-no');
+			var file_name = $(this).data('file-name');
+			console.log(file_id, student_no, file_name); // Log the parameter values
 
-        _conf("Are you sure to delete this file?", "delete_file", [file_id, student_no, "'" + file_name + "'"]);
-    });
-});
+			_conf("Are you sure to delete this file?", "delete_file", [file_id, student_no, "'" + file_name + "'"]);
+		});
+	});
 
-function delete_file(file_id, student_no, file_name) {
-    start_load();
-    $.ajax({
-        url: 'ajax.php?action=delete_file',
-        method: 'POST',
-        data: {file_id: file_id, student_no: student_no, file_name: "'" + file_name.replace(/'/g, "\\'") + "'"}, // Escape single quotes in file_name
-        success: function(resp) {
-            if (resp == 1) {
-                alert_toast("File Successfully Deleted", 'success');
-                setTimeout(function() {
-                    location.reload();
-                }, 1500);
-            }
-        }
-    });
-}
-
-
+	function delete_file(file_id, student_no, file_name) {
+		start_load();
+		$.ajax({
+			url: 'ajax.php?action=delete_file',
+			method: 'POST',
+			data: {file_id: file_id, student_no: student_no, file_name: "'" + file_name.replace(/'/g, "\\'") + "'"}, // Escape single quotes in file_name
+			success: function(resp) {
+				if (resp == 1) {
+					alert_toast("File Successfully Deleted", 'success');
+					setTimeout(function() {
+						location.reload();
+					}, 1500);
+				}
+			}
+		});
+	}
 </script>
 

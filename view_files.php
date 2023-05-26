@@ -86,7 +86,7 @@ $(document).ready(function(){
     $('#list').dataTable({
         scrollX: true,
     });
-    $('.delete_file').click(function(){
+    $('#list').on('click', '.delete_file', function(){
         var file_id = $(this).data('file-id');
         var student_no = $(this).data('student-no');
         var file_name = $(this).data('file-name');

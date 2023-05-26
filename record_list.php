@@ -116,8 +116,8 @@
 		$('#list').dataTable({
 			scrollX: true,
 		});
-		$('.delete_record').click(function(){
-        	_conf("Are you sure to delete this record? <br><br><small> Linked files will also be deleted</small>", "delete_record", [$(this).data('id'), $(this).data('student-no')]);
+		$('#list').on('click', '.delete_record', function() {
+			_conf("Are you sure to delete this record? <br><br><small> Linked files will also be deleted</small>", "delete_record", [$(this).data('id'), $(this).data('student-no')]);
 		});
 		$('.update_status').click(function(){
         	_conf("Are you sure to approve this record?", "update_status", [$(this).data('id'), $(this).data('update-status')]);

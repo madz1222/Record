@@ -117,7 +117,11 @@
 			scrollX: true,
 		});
 		$('#list').on('click', '.delete_record', function() {
-        	_conf("Are you sure to delete this record? <br><br><small> Linked files will also be deleted</small>", "delete_record", [$(this).data('id'), $(this).data('student-no')]);
+			var record_id = $(this).data('id');
+			var student_no = $(this).data('student-no');
+			console.log(record_id, student_no); // Log the parameter values
+
+			_conf("Are you sure to delete this record? <br><br><small> Linked files will also be deleted</small>", "delete_record", [record_id, student_no]);
 		});
 		$('.update_status').click(function(){
         	_conf("Are you sure to approve this record?", "update_status", [$(this).data('id'), $(this).data('update-status')]);

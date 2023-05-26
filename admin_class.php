@@ -228,20 +228,38 @@ Class Action {
 		return 1;
 	}//Not Used -Robell
 	
-	function delete_record(){
+	function delete_record() {
 		extract($_POST);
-		$delete = $this->db->query("DELETE FROM record where id = ".$id);
-		$delete = $this->db->query("DELETE FROM user_file where student_no = " . $student_no);
+		$deleteRecord = $this->db->query("DELETE FROM record WHERE id = " . $id);
+		$deleteUserFile = $this->db->query("DELETE FROM user_file WHERE student_no = " . $student_no);
+	
+		$location = "userfiles/" . $student_no;
+	
+		if (is_dir($location)) {
+			// Remove all files and subdirectories within the directory
+			$files = glob($location . '/*');
+			foreach ($files as $file) {
+				if (is_file($file)) {
+					unlink($file);
+				}
+			}
+	
+			// Delete the directory itself
+			rmdir($location);
+		}
 		
-		if($delete){
+		if ($deleteRecord && $deleteUserFile) {
 			return 1;
 		}
-	}
-	function delete_file(){
+	}	
+	function delete_file() {
 		extract($_POST);
-
-		$location = 'userfiles/' . $student_no . '/' . $file_name;
-
+	
+		// Remove the single quotes from the file name
+		$file_name = str_replace("'", '', $file_name);
+	
+		$location = "userfiles/" . $student_no . "/" . $file_name;
+	
 		if (is_file($location)) {
 			unlink($location);
 		}
@@ -251,6 +269,7 @@ Class Action {
 			return 1; 
 		}
 	}
+	
 	function save_upload(){
 		extract($_POST);
 		// var_dump($_FILES);

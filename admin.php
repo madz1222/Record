@@ -44,15 +44,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             // Configure PHPMailer with your SMTP settings
             $mail->isSMTP();
-            $mail->Host = 'smtp.mail.yahoo.com';
+            $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
-            $mail->Username = '@yahoo.com';
-            $mail->Password = '';
+            $mail->Username = 'johabel2315@gmail.com';
+            $mail->Password = 'kflthefozzehhdsg';
             $mail->SMTPSecure = 'ssl';
             $mail->Port = 465;
     
             // Set the sender and recipient
-            $mail->setFrom('robellnomorosa@yahoo.com', 'Robell Nomorosa');
+            $mail->setFrom('johabel2315@gmail.com', 'Record System');
             $mail->addAddress($email);
     
             // Set email content

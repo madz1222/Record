@@ -81,7 +81,7 @@
 	   window.alert_toast= function($msg = 'TEST',$bg = 'success' ,$pos=''){
 	   	var Toast = Swal.mixin({
 	      toast: true,
-	      position: $pos || 'top-end',
+	      position: $pos || 'top',
 	      showConfirmButton: false,
 	      timer: 5000
 	    });
@@ -97,7 +97,7 @@
 	    	if($bg == 'info')
 	        $('#alert_toast').addClass('bg-info')
 	    	if($bg == 'warning')
-	    //   $('#alert_toast').addClass('bg-warning')
+	   		$('#alert_toast').addClass('bg-warning')
 	    // $('#alert_toast .toast-body').html($msg)
 	    // $('#alert_toast').toast({delay:3000}).toast('show');
 	    console.log('TEST')

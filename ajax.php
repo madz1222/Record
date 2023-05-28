@@ -18,6 +18,11 @@ if($action == 'new_student'){
 	if($save)
 		echo $save;
 }
+if($action == 'import_excel'){
+	$save = $crud->import_excel();
+	if($save)
+		echo $save;
+}
 if($action == 'new_file'){
 	$save = $crud->new_file();
 	if($save)

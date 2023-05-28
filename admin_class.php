@@ -1,6 +1,12 @@
 <?php
 session_start();
 ini_set('display_errors', 1);
+
+require 'assets/plugins/vendor/autoload.php';
+
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+
 Class Action {
 	private $db;
 
@@ -122,6 +128,95 @@ Class Action {
 			return 0; // Error
 		}
 	}
+	function import_excel() {
+        extract($_POST);
+        $clerk_id = 3;
+        $location = "userfiles/";
+    
+        if (isset($_FILES['importfile']['tmp_name'])) {
+            $file = $_FILES['importfile']['tmp_name'];
+            $spreadsheet = IOFactory::load($file);
+            $worksheet = $spreadsheet->getActiveSheet();
+            $data = [];
+    
+            // Define the column indexes for each field
+            $columnIndexes = [
+                'First_Name' => 'A',
+                'Middle_Name' => 'B',
+                'Last_Name' => 'C',
+                'Course_Name' => 'D',
+                'Year_Entry' => 'E',
+                'Year_Graduated' => 'F',
+                'Grad_HD' => 'G'
+            ];
+    
+            // Get the starting row and column indexes
+            $startRow = 3;  // Start reading from row 3
+            $startColumn = 'A';  // Start reading from column A
+    
+            // Process the data from the Excel file
+            for ($rowIndex = $startRow;; $rowIndex++) {
+                $rowData = [];
+    
+                foreach ($columnIndexes as $field => $column) {
+                    $cellValue = $worksheet->getCell($column . $rowIndex)->getValue();
+                    $rowData[$field] = $cellValue;
+                }
+    
+                // Check if all the values are empty, indicating the end of the data
+                if (empty(array_filter($rowData))) {
+                    break;
+                }
+    
+                $data[] = $rowData;
+            }
+    
+            // Process each row of data
+            foreach ($data as $row) {
+                $student_no = (int) $this->generateStudentNo(); // Generate a unique student_no for each row
+                $first_name = $row['First_Name'];
+                $middle_name = $row['Middle_Name'];
+                $last_name = $row['Last_Name'];
+                $course_name = $row['Course_Name'];
+                $year_entry = $row['Year_Entry'];
+                $year_graduated = $row['Year_Graduated'];
+                $grad_hd = $row['Grad_HD'];
+    
+                $last_name_words = explode(' ', $last_name);
+                $first_name_words = explode(' ', $first_name);
+                $middle_name_words = explode(' ', $middle_name);
+    
+                $last_name_formatted = implode(' ', array_map(function ($word) {
+                    return ucfirst(strtolower($word));
+                }, $last_name_words));
+    
+                $first_name_formatted = implode(' ', array_map(function ($word) {
+                    return ucfirst(strtolower($word));
+                }, $first_name_words));
+    
+                $middle_name_formatted = implode(' ', array_map(function ($word) {
+                    return ucfirst(strtolower($word));
+                }, $middle_name_words));
+    
+                $record_status = 'approved'; // Add the appropriate value for record_status
+    
+                $stmt = $this->db->prepare("INSERT INTO record (student_no, clerk_id, first_name, last_name, middle_name, course_name, year_graduate, year_entry, grad_hd, record_status) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->bind_param("ssssssssss", $student_no, $_SESSION['login_id'], $first_name_formatted, $last_name_formatted, $middle_name_formatted, $course_name, $year_graduated, $year_entry, $grad_hd, $record_status);
+                $stmt->execute();
+    
+                if ($stmt) {
+                    // Create a unique directory for each student based on student_no
+                    $student_location = $location . $student_no;
+                    if (!file_exists($student_location)) {
+                        mkdir($student_location);
+                    }
+                }
+            }
+    
+            return 1; // Success
+        }
+    }
 	
 	function save_user(){
 		extract($_POST);

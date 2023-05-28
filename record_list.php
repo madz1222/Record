@@ -4,6 +4,9 @@
 			<?php if($_SESSION['login_type'] == 2 ): ?>	
 			<div class="card-tools">
 				<a class="btn btn-block btn-sm btn-success btn-flat" href="./index.php?page=new_student_record"><i class="fa fa-plus"></i> Add New</a>
+			</div>
+			<div class="card-tools mr-3">
+				<a class="btn btn-block btn-sm btn-info btn-flat" href="./index.php?page=import_excel"><i class="fa fa-plus"></i> Import Excel</a>
 			</div>		
 			<?php endif; ?>
 		</div>
@@ -138,7 +141,7 @@
 					alert_toast("Record Successfully Deleted",'success')
 					setTimeout(function(){
 						location.reload()
-					},1500)
+					},500)
 
 				}
 			}
@@ -155,7 +158,7 @@
 					alert_toast("Status Successfully Updated",'success')
 					setTimeout(function(){
 						location.reload()
-					},1500)
+					},500)
 				}
 			}
 		})

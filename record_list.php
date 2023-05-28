@@ -1,3 +1,12 @@
+<label for="filter-select">Filter Clerk:</label>
+	<select id="filter-select">
+		<option value="0">All</option>
+		<option value="1">Clerk 1</option>
+		<option value="2">Clerk 2</option>
+		<option value="3">Clerk 3</option>
+		<option value="4">Clerk 4</option>
+		<option value="5">Clerk 5</option>
+	</select>
 <div class="col-lg-12">
 	<div class="card card-outline">
 		<div class="card-header">	
@@ -114,11 +123,25 @@
 		</div>
 	</div>
 </div>
+
 <script>
 	$(document).ready(function(){
-		$('#list').dataTable({
-			scrollX: true,
+		var table = $('#list').DataTable({
+			scrollX: true
 		});
+
+		$('#filter-select').on('change', function() {
+			var value = $(this).val();
+
+			if (value === '' || value === '0') {
+				// If no value is selected or "0" is selected, show all rows
+				table.search('').columns().search('').draw();
+			} else {
+				// Filter the table based on the selected value
+				table.column(1).search(value).draw();
+			}
+		});
+
 		$('#list').on('click', '.delete_record', function() {
 			var record_id = $(this).data('id');
 			var student_no = $(this).data('student-no');

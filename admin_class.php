@@ -323,30 +323,6 @@ Class Action {
 		return 1;
 	}//Not Used -Robell
 	
-	function delete_record() {
-		extract($_POST);
-		$deleteRecord = $this->db->query("DELETE FROM record WHERE id = " . $id);
-		$deleteUserFile = $this->db->query("DELETE FROM user_file WHERE student_no = " . $student_no);
-	
-		$location = "userfiles/" . $student_no;
-	
-		if (is_dir($location)) {
-			// Remove all files and subdirectories within the directory
-			$files = glob($location . '/*');
-			foreach ($files as $file) {
-				if (is_file($file)) {
-					unlink($file);
-				}
-			}
-	
-			// Delete the directory itself
-			rmdir($location);
-		}
-		
-		if ($deleteRecord && $deleteUserFile) {
-			return 1;
-		}
-	}	
 	function delete_file() {
 		extract($_POST);
 	
@@ -401,11 +377,37 @@ Class Action {
 		}
 
 	}
-	function update_status() {
+	
+	function delete_record() {
+		extract($_POST);
+		$deleteRecord = $this->db->query("DELETE FROM record WHERE id = " . $id);
+		$deleteUserFile = $this->db->query("DELETE FROM user_file WHERE student_no = " . $student_no);
+	
+		$location = "userfiles/" . $student_no;
+	
+		if (is_dir($location)) {
+			// Remove all files and subdirectories within the directory
+			$files = glob($location . '/*');
+			foreach ($files as $file) {
+				if (is_file($file)) {
+					unlink($file);
+				}
+			}
+	
+			// Delete the directory itself
+			rmdir($location);
+		}
+		
+		if ($deleteRecord && $deleteUserFile) {
+			return 1;
+		}
+	}	
+	
+	function approve_record() {
 		extract($_POST);
 	
 		$update = $this->db->query("UPDATE record SET 
-		record_status = '$update_status'
+		record_status = '$approve_record'
 		WHERE id = '$id'");
 
 		if ($update) {
@@ -413,6 +415,7 @@ Class Action {
 		}
 
 	}
+	
 	function reset_password() {
 		extract($_POST);
 	

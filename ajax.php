@@ -38,11 +38,31 @@ if($action == 'update_user'){
 	if($save)
 		echo $save;
 }
-if($action == 'update_status'){
-	$save = $crud->update_status();
+
+if($action == 'delete_record'){
+	$delete = $crud->delete_record();
+	if($delete)
+		echo $delete;
+}
+
+if($action == 'approve_record'){
+	$save = $crud->approve_record();
 	if($save)
 		echo $save;
 }
+
+if($action == 'delete_multiple_records'){
+	$delete = $crud->delete_multiple_records();
+	if($delete)
+		echo $delete;
+}
+
+if($action == 'approve_multiple_records'){
+	$save = $crud->approve_multiple_records();
+	if($save)
+		echo $save;
+}
+
 if($action == 'upload_file'){
 	$save = $crud->upload_file();
 	if($save)
@@ -71,12 +91,6 @@ if($action == 'reset_password'){
 	$save = $crud->reset_password();
 	if($save)
 		echo $save;
-}
-
-if($action == 'delete_record'){
-	$delete = $crud->delete_record();
-	if($delete)
-		echo $delete;
 }
 
 if($action == 'delete_file'){

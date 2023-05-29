@@ -1,13 +1,5 @@
-<label for="filter-select">Filter Clerk:</label>
-	<select id="filter-select">
-		<option value="0">All</option>
-		<option value="1">Clerk 1</option>
-		<option value="2">Clerk 2</option>
-		<option value="3">Clerk 3</option>
-		<option value="4">Clerk 4</option>
-		<option value="5">Clerk 5</option>
-	</select>
-<div class="col-lg-12">
+
+<div class="col-sm-12">
 	<div class="card card-outline">
 		<div class="card-header">	
 			<?php if($_SESSION['login_type'] == 2 ): ?>	
@@ -17,6 +9,19 @@
 			<div class="card-tools mr-3">
 				<a class="btn btn-block btn-sm btn-info btn-flat" href="./index.php?page=import_excel"><i class="fa fa-plus"></i> Import Excel</a>
 			</div>		
+			<?php endif; ?>
+			<?php if($_SESSION['login_type'] == 1 ): ?>	
+			<div class="">
+				<label for="filter-select">Filter Clerk:</label>
+				<select id="filter-select">
+					<option value="0">All</option>
+					<option value="1">Clerk 1</option>
+					<option value="2">Clerk 2</option>
+					<option value="3">Clerk 3</option>
+					<option value="4">Clerk 4</option>
+					<option value="5">Clerk 5</option>
+				</select>
+			</div>
 			<?php endif; ?>
 		</div>
 		
@@ -41,9 +46,10 @@
 
 				<thead>
 					<tr>
+						<th></th> 
 						<th>Action &nbsp;</th>
 						<?php if($_SESSION['login_type'] == 1 ): ?>		
-							<th>Clerk &nbsp;</th>
+							<th class="clerk-id">Clerk &nbsp;</th>
 						<?php endif; ?>
 						<?php if($_SESSION['login_type'] == 1 ): ?>	
 							<th>Status&nbsp;</th>
@@ -75,7 +81,8 @@
 						$trans = get_html_translation_table(HTML_ENTITIES,ENT_QUOTES);
 						unset($trans["\""], $trans["<"], $trans[">"], $trans["<h2"]);
 					?>
-					<tr>
+					<tr>	
+							<td></td>
 							<td class="text-center">
 								<div class="btn-group">
 									<a href="./index.php?page=update_record&id=<?php echo $row['id'] ?>" class="btn btn-primary btn-flat">
@@ -127,7 +134,7 @@
 <script>
 	$(document).ready(function(){
 		var table = $('#list').DataTable({
-			scrollX: true
+			scrollX: true,
 		});
 
 		$('#filter-select').on('change', function() {
@@ -138,7 +145,7 @@
 				table.search('').columns().search('').draw();
 			} else {
 				// Filter the table based on the selected value
-				table.column(1).search(value).draw();
+				table.column(2).search(value).draw();
 			}
 		});
 

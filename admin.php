@@ -44,10 +44,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             // Configure PHPMailer with your SMTP settings
             $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
+            $mail->Host = '';
             $mail->SMTPAuth = true;
-            $mail->Username = 'johabel2315@gmail.com';
-            $mail->Password = 'kflthefozzehhdsg';
+            $mail->Username = '';
+            $mail->Password = '';
             $mail->SMTPSecure = 'ssl';
             $mail->Port = 465;
     

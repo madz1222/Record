@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 26, 2023 at 12:37 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Jan 17, 2024 at 09:40 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -67,7 +67,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `firstname`, `lastname`, `middlename`, `email`, `password`, `type`, `avatar`, `date_created`, `token`, `token_expiration`) VALUES
-(7, 'Robell ', 'Nomorosa', 'De Guzman', 'robellnomorosa@yahoo.com', '$2y$10$V1sjRWLZMJTCPleK8fDV.epYCZRQcUPvHqdBTT.xT2cnBGjsn.7T.', 1, '1684346400_W2mRD_5c.jpg', '2023-05-18 02:00:23', 'a49d1547cfbedf1be8679639668e9e11', '2023-05-22 13:47:06'),
+(7, 'Robell ', 'Nomorosa', 'De Guzman', 'admin@yahoo.com', '$2y$10$lDd8xD.jaRf26R4h5NFZYuvaz6dBrLtAxbL3Z9zgH/5qNsOf1BHya', 1, '1684346400_W2mRD_5c.jpg', '2023-05-18 02:00:23', 'a49d1547cfbedf1be8679639668e9e11', '2023-05-22 13:47:06'),
 (13, 'clerk1', 'clerk1', 'clerk1', 'clerk1@yahoo.com', '$2y$10$hhP4Ua7OeZBcPryFZ5sryeUZcoeLyL1HykbbLtcU9WQVxOb6DzZFq', 2, '1684402560_Feb 28, 2023.jpg', '2023-05-18 17:36:32', '', NULL),
 (14, 'clerk2', 'clerk2', 'clerk2', 'clerk2@yahoo.com', '$2y$10$JtaY261VwfEPnBJDcpsazuyHxa4kh2cWoKUvDeJSKLmBqknvyuWRe', 2, '1684402620_Feb 28, 2023.jpg', '2023-05-18 17:37:18', '', NULL);
 
@@ -86,13 +86,6 @@ CREATE TABLE `user_file` (
   `file_owner` varchar(256) NOT NULL,
   `student_no` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `user_file`
---
-
-INSERT INTO `user_file` (`file_id`, `file_name`, `file_type`, `date_uploaded`, `clerk_id`, `file_owner`, `student_no`) VALUES
-(129, '1685095587_record_db.sql', 'sql', '2023-05-26, 06:06 PM', 13, '2023-05-26, 06:06 PM', 0);
 
 --
 -- Indexes for dumped tables
